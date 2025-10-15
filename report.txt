@@ -1,0 +1,37 @@
+db_config = {
+    'host': 'mydatabase.com',
+    'user': 'admin',
+    'password': 'secret123'
+}
+
+The vulnerabiity here is that, the database credentials is hard coded in the code. If an attacker gets access to this code then they have free access to the database.
+
+============================================================
+
+def get_user_input():
+    user_input = input('Enter your name: ')
+    return user_input
+
+
+The vulnerability here is that we are taking the user input directly without validation and the user input may contain malious code
+
+===========================================================
+
+def get_data():
+    url = 'http://insecure-api.com/get-data'
+    data = urlopen(url).read().decode()
+    return data
+
+The vulnerability here is that the external data is not validated
+========================================================================
+
+def save_to_db(data):
+    query = f"INSERT INTO mytable (column1, column2) VALUES ('{data}', 'Another Value')"
+    connection = pymysql.connect(**db_config)
+    cursor = connection.cursor()
+    cursor.execute(query)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+The vulnerabilty here is that the unvalidated data is stored in the database directly, which has exposed the database to SQL Injection.
