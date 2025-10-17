@@ -59,9 +59,16 @@ function sendEmail(to: string, subject: string, body: string) {
     });
 }
 
+/**
+ * The vulnerability here is that the external data is not validated
+   
+   OSWAP Category: A10:2021 – Server-Side Request Forgery (SSRF)
+ * 
+ */
+
 function getData(): Promise<string> {
     return new Promise((resolve, reject) => {
-        http.get('http://insecure-api.com/get-data', (res) => {
+        http.get('https://secure-api.com/get-data', (res) => {
             let data = '';
             res.on('data', chunk => data += chunk);
             res.on('end', () => resolve(data));
