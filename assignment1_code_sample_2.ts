@@ -3,10 +3,19 @@ import * as mysql from 'mysql';
 import { exec } from 'child_process';
 import * as http from 'http';
 
+
+/***
+
+The vulnerabiity here is that, the database credentials is hard coded in the code.
+If an attacker gets access to this code then they have free access to the database.
+
+ OWASP A07:2021 – Identification and Authentication Failures
+'''
+ */
 const dbConfig = {
     host: 'mydatabase.com',
     user: 'admin',
-    password: 'secret123',
+    password: '*******',
     database: 'mydb'
 };
 
