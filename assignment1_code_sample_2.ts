@@ -83,10 +83,14 @@ function getData(): Promise<string> {
     OSWAP Category: A03:2021 – Injection
  */
 
-function saveToDb(data: string) {
+async function saveToDb(data: string) {
     const connection = mysql.createConnection(dbConfig);
-    const query = `INSERT INTO mytable (column1, column2) VALUES ('${sanitizeInput(data)}', 'Another Value')`;
+    const query = `INSERT INTO mytable (column1, column2) VALUES ('?', '?')`;
 
+    const values = [data, 'Another Value'];
+    
+    await connection.execute(query, values);
+    
     connection.connect();
     connection.query(query, (error, results) => {
         if (error) {
