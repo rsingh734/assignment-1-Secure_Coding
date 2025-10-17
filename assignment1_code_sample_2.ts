@@ -76,9 +76,16 @@ function getData(): Promise<string> {
     });
 }
 
+/**
+ * 
+ * The vulnerabilty here is that the unvalidated data is stored in the database directly, which has exposed the database to SQL Injection.
+    
+    OSWAP Category: A03:2021 – Injection
+ */
+
 function saveToDb(data: string) {
     const connection = mysql.createConnection(dbConfig);
-    const query = `INSERT INTO mytable (column1, column2) VALUES ('${data}', 'Another Value')`;
+    const query = `INSERT INTO mytable (column1, column2) VALUES ('${sanitizeInput(data)}', 'Another Value')`;
 
     connection.connect();
     connection.query(query, (error, results) => {
