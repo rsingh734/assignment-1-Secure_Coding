@@ -19,6 +19,22 @@ const dbConfig = {
     database: 'mydb'
 };
 
+
+function sanitizeInput(input: string): string {
+    if (!input) return '';
+    return input
+        .trim()
+        .slice(0, 255)
+        .replace(/[<>'"&;`$]/g, '');
+}
+
+/***
+ * The vulnerability here is that we are taking the user input directly without
+ * validation and the user input may contain malious code.
+
+ OWASP Category: A03:2021 – Injection
+ */
+
 function getUserInput(): Promise<string> {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -28,7 +44,9 @@ function getUserInput(): Promise<string> {
     return new Promise((resolve) => {
         rl.question('Enter your name: ', (answer) => {
             rl.close();
-            resolve(answer);
+
+            const sanitizedAnswer = sanitizeInput(answer);
+            resolve(sanitizedAnswer);
         });
     });
 }
