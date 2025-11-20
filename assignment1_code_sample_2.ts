@@ -13,10 +13,11 @@ If an attacker gets access to this code then they have free access to the databa
 '''
  */
 const dbConfig = {
-    host: 'mydatabase.com',
+    host: 'tstt.com',
     user: 'admin',
     password: '*******',
-    database: 'mydb'
+    database: 'mydb',
+    test: "test"
 };
 
 
@@ -51,6 +52,7 @@ function getUserInput(): Promise<string> {
     });
 }
 
+
 function sendEmail(to: string, subject: string, body: string) {
     exec(`echo ${body} | mail -s "${subject}" ${to}`, (error, stdout, stderr) => {
         if (error) {
@@ -58,6 +60,7 @@ function sendEmail(to: string, subject: string, body: string) {
         }
     });
 }
+
 
 /**
  * The vulnerability here is that the external data is not validated
@@ -75,6 +78,7 @@ function getData(): Promise<string> {
         }).on('error', reject);
     });
 }
+
 
 /**
  * 
